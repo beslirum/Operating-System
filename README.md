@@ -75,9 +75,28 @@ Program, kullanıcının bir sayı girmesini bekler ve bu sayıdan küçük veya
 3. Oluşturulan `AsalSayiBulucu.class` dosyasını çalıştırın.
 4. Program, bir sayı girmenizi isteyecektir. Girilen sayıdan küçük veya eşit olan asal sayılar ekrana yazdırılacaktır.
 
-## Sonuç:**
+-## Sonuç:
 
-- Program, kullanıcının girdiği sayıyı kullanarak bir iş parçacığı oluşturur ve asal sayıları bu iş parçacığı üzerinden bulur.
+  - Program, kullanıcının girdiği sayıyı kullanarak bir iş parçacığı oluşturur ve asal sayıları bu iş parçacığı üzerinden bulur.
+# ArrayList Demo
+
+Bu Java programı, `ArrayList` sınıfının temel kullanımını gösterir.
+
+## Kullanım
+
+Program, bir `ArrayList` oluşturur, elemanlar ekler, belirli bir indekse eleman ekler, bir elemanı kaldırır ve son durumu ekrana yazdırır.
+
+### Programı Çalıştırma
+
+1. Java Runtime Environment (JRE) kurulu olduğundan emin olun.
+2. `ArrayListDemo.java` adlı dosyayı bir Java derleyicisiyle derleyin.
+3. Oluşturulan `ArrayListDemo.class` dosyasını çalıştırın.
+4. Program, `ArrayList` kullanarak temel işlemleri gerçekleştirir ve sonuçları ekrana yazdırır.
+
+## Notlar
+
+- Bu program, `ArrayList` sınıfının temel işlemlerini gösterir.
+
 
 
 
