@@ -75,12 +75,10 @@ Program, kullanıcının bir sayı girmesini bekler ve bu sayıdan küçük veya
 3. Oluşturulan `AsalSayiBulucu.class` dosyasını çalıştırın.
 4. Program, bir sayı girmenizi isteyecektir. Girilen sayıdan küçük veya eşit olan asal sayılar ekrana yazdırılacaktır.
 
-## Notlar
+## Sonuç:**
 
 - Program, kullanıcının girdiği sayıyı kullanarak bir iş parçacığı oluşturur ve asal sayıları bu iş parçacığı üzerinden bulur.
 
-## Lisans
 
-Bu program, MIT Lisansı altında lisanslanmıştır. Daha fazla bilgi için [LICENSE](LICENSE) dosyasına göz atın.
 
 
