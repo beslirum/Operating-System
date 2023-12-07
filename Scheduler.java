@@ -81,58 +81,76 @@ class process{  //Bu işlem, process nesnesini temsil eder. İşleme ait:
 public class Scheduler {
     int TQ; // time quadrant
     int contextSwitchCost;
-    ArrayList<process> readyQueue ;
-    ArrayList<process> finishedProcesses ;
-    void readFile() throws Exception{
+    ArrayList<process> readyQueue;
+    ArrayList<process> finishedProcesses;
+    void readFile() throws Exception {
+        // Dosyadan veri okuma işlemleri
         FileReader fr = new FileReader(new File("input.txt"));
         BufferedReader br = new BufferedReader(fr);
-        int lineCount =0;
+        int lineCount = 0;
         String line;
-        while((line = br.readLine())!=null){
+
+        // Satır satır dosyayı okuma
+        while ((line = br.readLine()) != null) {
             lineCount++;
-            if(lineCount == 1){
+
+            // Satır sayısına göre işlemler
+            if (lineCount == 1) {
+                // İlk satır, zaman çeyreği (TQ) olarak atanır
                 TQ = Integer.parseInt(line);
-            }
-            else if(lineCount == 2){
+            } else if (lineCount == 2) {
+                // İkinci satır, bağlam değiştirme maliyeti olarak atanır
                 contextSwitchCost = Integer.parseInt(line);
-            }
-            else{
-                StringTokenizer st = new StringTokenizer(line," ");
+            } else {
+                // Diğer satırlar işlemleri temsil eder
+                StringTokenizer st = new StringTokenizer(line, " ");
                 String token;
                 String name;
-                int values [] = new int[3];
+                int values[] = new int[3];
                 name = st.nextToken();
                 int i = 0;
-                
-                while(st.hasMoreTokens()){
-                   values[i++] = Integer.parseInt(st.nextToken());
+
+                // Satırdaki her bir sayı değeri alınır
+                while (st.hasMoreTokens()) {
+                    values[i++] = Integer.parseInt(st.nextToken());
                 }
-                readyQueue.add(new process(name,values[0],values[1],values[2]));
-                
-               
-                
+
+                // Okunan değerlerle yeni bir işlem nesnesi oluşturulur ve hazır kuyruğa eklenir
+                readyQueue.add(new process(name, values[0], values[1], values[2]));
             }
-            
         }
     }
-    void PrintQueue(ArrayList<process> al){
-        
-        for(process p : al){
-            System.out.println(p);
-           
-        }
+}
+
+  void PrintQueue(ArrayList<process> al) {
+    // Metodun parametresi olarak gelen işlem kuyruğu (ArrayList<process> al) üzerinde bir for-each döngüsü başlatılır.
+    for (process p : al) {
+        // Her bir işlem nesnesi için System.out.println() metodu kullanılarak bilgileri ekrana yazdırılır.
+        System.out.println(p);
     }
-    void calculateResponseTimes(ArrayList<process> al){
-        int twt=0,trt=0;// total wait time and total responseTime
-         for(process p : al){
-            p.CalculateResponseTime(); 
-            trt+= p.responseTime;
-            p.CalculateWaitingTime();
-            twt += p.waitingTime;
-        }
-         System.out.println(" Average Waiting Time : "+ (float)((float)twt/(float)al.size()) 
-                 + " Average Response Time "+ (float)((float)trt/(float)al.size()));
+}
+
+    void calculateResponseTimes(ArrayList<process> al) {
+    int twt = 0, trt = 0; // Toplam bekleme süresi (twt) ve toplam yanıt süresi (trt) değişkenleri
+
+    // Her bir işlem nesnesi için bir for-each döngüsü başlatılır
+    for (process p : al) {
+        // İşlem nesnesinin CalculateResponseTime() metodu çağrılarak yanıt süresi hesaplanır
+        p.CalculateResponseTime();
+        // Toplam yanıt süresine işlem nesnesinin yanıt süresi eklenir
+        trt += p.responseTime;
+
+        // İşlem nesnesinin CalculateWaitingTime() metodu çağrılarak bekleme süresi hesaplanır
+        p.CalculateWaitingTime();
+        // Toplam bekleme süresine işlem nesnesinin bekleme süresi eklenir
+        twt += p.waitingTime;
     }
+
+    // Ortalama bekleme süresi ve ortama yanıt süresi hesaplanır ve ekrana yazdırılır
+    System.out.println(" Average Waiting Time : " + (float) ((float) twt / (float) al.size())
+            + " Average Response Time " + (float) ((float) trt / (float) al.size()));
+}
+
     public Scheduler(){
          readyQueue = new ArrayList<process>();
          finishedProcesses = new ArrayList<process>();
