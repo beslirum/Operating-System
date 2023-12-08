@@ -151,70 +151,78 @@ public class Scheduler {
             + " Average Response Time " + (float) ((float) trt / (float) al.size()));
 }
 
-    public Scheduler(){
-         readyQueue = new ArrayList<process>();
-         finishedProcesses = new ArrayList<process>();
-         try{
-            readFile();
-         }catch(Exception e){
-             e.printStackTrace();
-         }
-         PrintQueue(readyQueue);
-         int timeTick = 0;
-         String runningProcessName="";
-         while(!readyQueue.isEmpty()){
-                // SJF preemptive 
-                int i = 0;
-               
-                // search for the first process, which is arrived
-                while(readyQueue.size()>i && readyQueue.get(i).arrivalTime > timeTick){
-                    i++;
-                }
-                // if there is no arrived process, than increase timeTick
-                if(i==readyQueue.size()){
-                    System.out.println("TimeTick: "+timeTick+" There is no process to run");
-                    timeTick++;
-                    continue;
-                    // we dont have an arrived process yet, so go for next iteration
-                }
-                int sj = readyQueue.get(i).burstTime;
-               
-                int addr = 0;
-                // we have at least 1 arrived process
-                // so search for shorter jobs 
-                for(int j = i ; j< readyQueue.size();j++){
-                    if(sj>readyQueue.get(j).burstTime && timeTick>=readyQueue.get(j).arrivalTime){
-                        sj = readyQueue.get(j).burstTime;
-                        addr = j;
-                    }
-                }
-               //  System.out.println(" sj "+sj);
-                // run the process
-                if(!runningProcessName.equals(readyQueue.get(addr).name)){
-                    timeTick += contextSwitchCost;
-                    runningProcessName = readyQueue.get(addr).name;
-                }
-                readyQueue.get(addr).burstTime--;
-                readyQueue.get(addr).runningTime.add(timeTick);
-                System.out.println("TimeTick: "+timeTick + " Running "+readyQueue.get(addr).name);
-                if(readyQueue.get(addr).burstTime==0){
-                    finishedProcesses.add(readyQueue.get(addr));
-                    readyQueue.remove(addr);
-                    
-                }
-                timeTick++;
+   public Scheduler() {
+    readyQueue = new ArrayList<process>(); // Hazır kuyruk (readyQueue) oluşturulur
+    finishedProcesses = new ArrayList<process>(); // Tamamlanmış işlemleri tutan kuyruk (finishedProcesses) oluşturulur
+    
+    try {
+        readFile(); // Dosyadan veri okuma işlemi yapılır
+    } catch (Exception e) {
+        e.printStackTrace(); // Eğer bir hata olursa hatayı yazdırır
+    }
+    
+    PrintQueue(readyQueue); // Hazır kuyruktaki işlemleri ekrana yazdırır
+    
+    int timeTick = 0; // Zaman işaretçisi (timeTick) başlangıçta 0 olarak ayarlanır
+    String runningProcessName = ""; // Şu anda çalışan işlemin adını takip etmek için kullanılır
+
+    // Hazır kuyrukta işlem varken çalışacak olan while döngüsü
+    while (!readyQueue.isEmpty()) {
+        // SJF preemptive (Shortest Job First) algoritması uygulanır
+        int i = 0;
+
+        // İlk varış yapan işlemi arar
+        while (readyQueue.size() > i && readyQueue.get(i).arrivalTime > timeTick) {
+            i++;
+        }
+
+        // Eğer varış zamanına sahip işlem yoksa, zaman işaretçisini arttırır ve bir sonraki iterasyona geçer
+        if (i == readyQueue.size()) {
+            System.out.println("TimeTick: " + timeTick + " There is no process to run");
+            timeTick++;
+            continue;
+        }
+
+        int sj = readyQueue.get(i).burstTime; // En kısa işlemi (Shortest Job) temsil eden değişken
+        int addr = 0;
+
+        // En az bir varış zamanına sahip işlem olduğunu varsayar ve daha kısa işlemleri arar
+        for (int j = i; j < readyQueue.size(); j++) {
+            if (sj > readyQueue.get(j).burstTime && timeTick >= readyQueue.get(j).arrivalTime) {
+                sj = readyQueue.get(j).burstTime;
+                addr = j;
             }
-            calculateResponseTimes(finishedProcesses);
-            PrintQueue(finishedProcesses);
-         }
-  
-   
+        }
+
+        // İşlem çalıştırılır
+        if (!runningProcessName.equals(readyQueue.get(addr).name)) {
+            timeTick += contextSwitchCost; // Bağlam değiştirme maliyetini ekler
+            runningProcessName = readyQueue.get(addr).name;
+        }
+
+        readyQueue.get(addr).burstTime--; // İşlem süresini azaltır
+        readyQueue.get(addr).runningTime.add(timeTick); // İşlemin çalışma zamanlarına zaman işaretçisini ekler
+        System.out.println("TimeTick: " + timeTick + " Running " + readyQueue.get(addr).name);
+
+        // Eğer işlem süresi tamamlanmışsa, tamamlanan işlemler kuyruğuna eklenir ve hazır kuyruktan çıkarılır
+        if (readyQueue.get(addr).burstTime == 0) {
+            finishedProcesses.add(readyQueue.get(addr));
+            readyQueue.remove(addr);
+        }
+        timeTick++; // Zaman işaretçisini arttırır
+    }
+
+    calculateResponseTimes(finishedProcesses); // Tamamlanan işlemlerin yanıt sürelerini hesaplar
+    PrintQueue(finishedProcesses); // Tamamlanan işlemleri ekrana yazdırır
+}
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-       Scheduler s = new Scheduler();
-    }
+   public static void main(String[] args) {
+    // TODO code application logic here
     
+    // Scheduler sınıfından bir nesne oluşturulur
+    Scheduler s = new Scheduler();
 }
+
